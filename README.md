@@ -8,7 +8,6 @@ Self-Driving Car Engineer Nanodegree Program
 [image1]: ./images/PID_equation.png "PID_EQ"
 [image2]: ./images/PID_diagram.png "PID_DIAGRAM"
 
-
 # Write Up
 
 In this project we utilize a PID controller to control a cars steering angle based primarily on CTE (cross track error) and speed to control a simulated vehicle's steering angle. The PID controller is visualized below in both equation and block diagram forms.
@@ -17,13 +16,13 @@ In this project we utilize a PID controller to control a cars steering angle bas
 ![alt text][image2]
 
 ## Proportional Gain: kP
-
+The proportional term is a gain applied to the CTE. 
 
 ## Integral Gain: kI
-
+The integral term is a gain applied to the integrated error. The integral term is used to remove steady state errors (biases). The integral term conceptually maintains a "history" of the error. The integral term can be very large depending upon the gain. 
 
 ## Derivative Gain: kD
-
+The derivative term is a gain applied to the differentiated error. The derivative term is used for damping and reducing overshoot. The derivative term conceptually is a predictor of the (future) error.  
 
 ---
 
