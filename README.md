@@ -7,6 +7,9 @@ Self-Driving Car Engineer Nanodegree Program
 
 [image1]: ./images/PID_equation.png "PID_EQ"
 [image2]: ./images/PID_diagram.png "PID_DIAGRAM"
+[image3]: ./images/PID_diagram.png "KP_TUNE_PLOT"
+[image4]: ./images/PID_diagram.png "KI_TUNE_PLOT"
+[image5]: ./images/PID_diagram.png "KD_TUNE_PLOT"
 
 # Write Up
 
@@ -23,6 +26,29 @@ The integral term is a gain applied to the integrated error. The integral term i
 
 ## Derivative Gain: kD
 The derivative term is a gain applied to the differentiated error. The derivative term is used for damping and reducing overshoot. The derivative term conceptually is a predictor of the (future) error.  
+
+## Gain Tuning Methodology
+I originally tried to use Ziegler-Nichols rules to tune the gains, but I found it difficult without the plant model in this context. Instead my strategy for gain tuning was primarily manual, by first coarsely tuning the gains and then iterating, similar to the Twiddle method described in lecture.
+
+My first step was to coarsely set kP while keeping kI and kD equal to zero. You can see in the plot below that kP values between 0.01 and 0.1 do not destabilize the control loop and cause underdamped oscillations. 
+
+![alt text][image3]
+
+I now had a coarse range for kP, but from the plots there is a clear steady state error. Adding a kI term will help remove steady state error, so it was the next term to add. I roughly set kP to 0.05 and moved to coarsely tuning kI. The integrator is  
+
+
+
+
+
+A video of the system running with my final gains for throttle values of 0.3 are shown below:
+
+A video of the system running with my final gains for throttle values using the  are shown below:
+
+I chose a throttle value of 0.3 for the tuning. 
+
+
+## Further Improvements
+To improve stability and error tracking one could try to compute gain and phase margins from a Bode plot. This would require a model of the system. Since this is a simulation, one likely exists, but since we do not have direct access, one could perform system identification by stimulating the system with different impulse responses. Assuming the model is linear (or linearize-able around steady state points), one could compute the closed loop transfer function and plot the frequency response in a Bode plot. This would be a good way to ensure stability of the system to prevent some of the underdamped oscillations that occur with some choices of gains. 
 
 ---
 
