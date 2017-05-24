@@ -3,10 +3,18 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+[//]: # (Image References)
+
+[image1]: ./images/PID_equation.png "PID_EQ"
+[image2]: ./images/PID_diagram.png "PID_DIAGRAM"
+
+
 # Write Up
 
-In this project we utilize a PID controller, visualized below in both equation and block diagram forms.
+In this project we utilize a PID controller to control a cars steering angle based primarily on CTE (cross track error) and speed to control a simulated vehicle's steering angle. The PID controller is visualized below in both equation and block diagram forms.
 
+![alt text][image1]
+![alt text][image2]
 
 ## Proportional Gain: kP
 
