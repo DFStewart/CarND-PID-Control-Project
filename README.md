@@ -3,6 +3,22 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+# Write Up
+
+In this project we utilize a PID controller, visualized below in both equation and block diagram forms.
+
+
+## Proportional Gain: kP
+
+
+## Integral Gain: kI
+
+
+## Derivative Gain: kD
+
+
+---
+
 ## Dependencies
 
 * cmake >= 3.5
