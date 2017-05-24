@@ -19,7 +19,7 @@ In this project we utilize a PID controller to control a cars steering angle bas
 ![alt text][image2]
 
 ## Proportional Gain: kP
-The proportional term is a gain applied to the CTE. 
+The proportional term is a gain applied to the CTE. The proportional term affects how fast the error is driven to zero. 
 
 ## Integral Gain: kI
 The integral term is a gain applied to the integrated error. The integral term is used to remove steady state errors (biases). The integral term conceptually maintains a "history" of the error. The integral term can be very large depending upon the gain. 
@@ -27,25 +27,30 @@ The integral term is a gain applied to the integrated error. The integral term i
 ## Derivative Gain: kD
 The derivative term is a gain applied to the differentiated error. The derivative term is used for damping and reducing overshoot. The derivative term conceptually is a predictor of the (future) error.  
 
+As a note closed loop stability I found exteremely important here as undamped oscillations are likely gain values that have shifted the poles of the system towards the right half plane and reduced the robustness and stability of the loop.
+
 ## Gain Tuning Methodology
-I originally tried to use Ziegler-Nichols rules to tune the gains, but I found it difficult without the plant model in this context. Instead my strategy for gain tuning was primarily manual, by first coarsely tuning the gains and then iterating, similar to the Twiddle method described in lecture.
+I originally tried to use Ziegler-Nichols rules to tune the gains, but I found it difficult without the plant model in this context. Instead my strategy for gain tuning was primarily manual, by first coarsely tuning the gains and then iterating, similar to the Twiddle method described in lecture. I chose the default throttle value of 0.3 for the tuning. 
 
 My first step was to coarsely set kP while keeping kI and kD equal to zero. You can see in the plot below that kP values between 0.01 and 0.1 do not destabilize the control loop and cause underdamped oscillations. 
 
 ![alt text][image3]
 
-I now had a coarse range for kP, but from the plots there is a clear steady state error. Adding a kI term will help remove steady state error, so it was the next term to add. I roughly set kP to 0.05 and moved to coarsely tuning kI. The integrator is  
+I now had a coarse range for kP, but from the plots there is a clear steady state error. Adding a kI term will help remove steady state error, so it was the next term to add. I roughly set kP to 0.05 and moved to coarsely tuning kI. Integrator wind up was a serious problem as shown in the plots below for different values of kI. I started with a very small kI value (0.00001) and slowly increased it until I reached a point where the system was not underdamped and oscillating too much and the I error term was not changing by too much.
 
+Once I had a reasonable kI value, I started tuning kD. Based on what I saw from the DError plots, D_error was the smallest and would require the largest gain in relation to the other two gains to have a significant effect. I found that a large gain of around 1.0 seemed to dampen some of the vibration and improve the controllers predictive capability. 
 
+At this point I had a coarse range for each gain kP, kI and kD and I started refining, by increasing and decreasing the value by around 5-10% and observing the performance. The final parameters I achieved were 0.1, 0.0002 and 2.5 for the throttle setting of 0.3 case.
 
+A video of the system running with my final gains for throttle values of 0.3 is shown below:
 
+## Increased Speeds
 
-A video of the system running with my final gains for throttle values of 0.3 are shown below:
+I tried to experiment with different speeds. My controller gains worked at different speeds to varying degrees. The car would complete the course, but there would often be significant oscillation at points. To combat this I attempted to implement a control system for the throttle based on the steering angle. My thought was to decrease the throttle linearly as a function of steering angle. Therefore in the straightaways we could travel faster. There is still some oscillation, but it is able to complete the course.
 
-A video of the system running with my final gains for throttle values using the  are shown below:
+The throttle control is disabled as it is checked in now and throttle is hard coded to 0.3, but can be enabled by setting the throttle_control_enable to true in the main.cpp file. 
 
-I chose a throttle value of 0.3 for the tuning. 
-
+A video of the system running with the addition of throttle control using steering angle is shown below:
 
 ## Further Improvements
 To improve stability and error tracking one could try to compute gain and phase margins from a Bode plot. This would require a model of the system. Since this is a simulation, one likely exists, but since we do not have direct access, one could perform system identification by stimulating the system with different impulse responses. Assuming the model is linear (or linearize-able around steady state points), one could compute the closed loop transfer function and plot the frequency response in a Bode plot. This would be a good way to ensure stability of the system to prevent some of the underdamped oscillations that occur with some choices of gains. 
