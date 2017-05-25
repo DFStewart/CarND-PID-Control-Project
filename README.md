@@ -34,13 +34,13 @@ The derivative term is a gain applied to the differentiated error. The derivativ
 As a note closed loop stability I found exteremely important here as undamped oscillations are likely gain values that have shifted the poles of the system towards the right half plane and reduced the robustness and stability of the loop.
 
 ## Gain Tuning Methodology
-I originally tried to use Ziegler-Nichols rules to tune the gains, but I found it difficult without the plant model in this context. Instead my strategy for gain tuning was primarily manual, by first coarsely tuning the gains and then iterating, similar to the Twiddle method described in lecture. I chose the default throttle value of 0.3 for the tuning. 
+I originally tried to use Ziegler-Nichols rules to tune the gains, but I found it difficult without the plant model. Instead my strategy for gain tuning was primarily manual, by first coarsely tuning the gains and then iterating, similar to the Twiddle method described in lecture. I chose the default throttle value of 0.3 for the tuning. 
 
-My first step was to coarsely set kP while keeping kI and kD equal to zero. You can see in the plot below that kP values between 0.01 and 0.1 do not immediately destabilize the control loop and cause underdamped oscillations. 
+My first step was to coarsely set kP while keeping kI and kD equal to zero. You can see in Figure 3 below that kP values between 0.01 and 0.1 do not immediately destabilize the control loop and cause underdamped oscillations. 
 
 ![alt text][image3]
 
-I now had a coarse range for kP, but from the plots there is a clear steady state error. Adding a kI term will help remove steady state error, so it was the next term to add. I roughly set kP to 0.05 and moved to coarsely tuning kI. Integrator wind up was a serious problem as shown in Figure below for different values of kI. I started with a very large kI value (0.01) and slowly decreased it until I reached a point where the system was not underdamped and oscillating too much and the I error term was not changing by too much.
+I now had a coarse range for kP, but from the plots there is a clear steady state error. Adding a kI term will help remove steady state error, so it was the next term to add. I roughly set kP to 0.05 and moved to coarsely tuning kI. Integrator wind up was a serious problem as shown in Figure 4 below for different values of kI. I started with a very large kI value (0.01) and slowly decreased it until I reached a point where the system was not underdamped and oscillating too much and the I error term was not changing by too much.
 
 ![alt text][image4]
 
@@ -48,7 +48,7 @@ In Figure 5 below we see a comparison of the CTE for PI and P control. Both have
 
 ![alt text][image5]
 
-Based on what I saw from the DError plots (Figure 6), D_error was the smallest and would require the largest gain in relation to the other two gains to have a significant effect. I found that a large gain of around 1.5 seemed to dampen some of the vibration and improve the controllers predictive capability as well as allow the car to complete the course without going off. 
+Based on what I saw from the D_Error plots (Figure 6), D_error was the smallest and would require the largest gain in relation to the other two gains to have a significant effect. I found that a large gain of around 1.5 seemed to dampen some of the vibration and improve the controllers predictive capability as well as allow the car to complete the course without going off. 
 
 ![alt text][image6]
 
