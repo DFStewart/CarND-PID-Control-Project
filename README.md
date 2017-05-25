@@ -63,6 +63,7 @@ At this point I had a coarse range for each gain kP, kI and kD and I started ref
 ![alt text][image8]
 
 A video of the system running with my final gains for throttle values of 0.3 is shown below:
+https://youtu.be/N8VJKleY1KQ
 
 ## Increased Speeds
 
@@ -73,6 +74,7 @@ I tried to experiment with different speeds. My controller gains worked at diffe
 The throttle control is disabled as it is checked in now and throttle is hard coded to 0.3, but can be enabled by setting the throttle_control_enable to true in the main.cpp file. 
 
 A video of the system running with the addition of throttle control using steering angle is shown below:
+https://youtu.be/59h8g9nwt-s
 
 ## Further Improvements
 To improve stability and error tracking one could try to compute gain and phase margins from a Bode plot. This would require a model of the system. Since this is a simulation, one likely exists, but since we do not have direct access, one could perform system identification by stimulating the system with different impulse responses. Assuming the model is linear (or linearize-able around steady state points), one could compute the closed loop transfer function and plot the frequency response in a Bode plot. This would be a good way to ensure stability of the system to prevent some of the underdamped oscillations that occur with some choices of gains. 
