@@ -9,6 +9,7 @@ public:
   double p_error;
   double i_error;
   double d_error;
+  double prevpass_cte; // store prev pass for numerical diff
 
   /*
   * Coefficients
@@ -30,7 +31,7 @@ public:
   /*
   * Initialize PID.
   */
-  void Init(double Kp, double Ki, double Kd);
+  void Init(double Kp_in, double Ki_in, double Kd_in);
 
   /*
   * Update the PID error variables given cross track error.
@@ -41,6 +42,11 @@ public:
   * Calculate the total PID error.
   */
   double TotalError();
+
+  /*
+  * Write test data to a file for post processing/analysis
+  */
+  void WriteTestData(double cte);
 };
 
 #endif /* PID_H */

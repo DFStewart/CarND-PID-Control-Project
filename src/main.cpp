@@ -33,7 +33,28 @@ int main()
   uWS::Hub h;
 
   PID pid;
-  // TODO: Initialize the pid variable.
+  // Initialize the pid variable.
+  //double Kp_in = 0.1;
+  //double Ki_in = 0.0002;
+  //double Kd_in = 2.5;
+  //pid.Init(Kp_in,Ki_in,Kd_in);
+
+  //Kp testing
+  //pid.Init(0.5,0.0,0.0);
+  //pid.Init(0.3,0.0,0.0);
+  //pid.Init(0.1,0.0,0.0);
+  //pid.Init(0.07,0.0,0.0);
+  //pid.Init(0.05,0.0,0.0);
+  //pid.Init(0.01,0.0,0.0);
+  //Ki testing
+  //pid.Init(0.05,0.01,0.0);
+  //pid.Init(0.05,0.001,0.0);
+  //pid.Init(0.05,0.0001,0.0);
+  //Kd testing
+  //pid.Init(0.05,0.0001,0.5);
+  //pid.Init(0.05,0.0001,1.5);
+  //Fine Tuning
+  pid.Init(0.1,0.0002,2.5); // Best
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -57,13 +78,24 @@ int main()
           * NOTE: Feel free to play around with the throttle and speed. Maybe use
           * another PID controller to control the speed!
           */
-          
+          pid.UpdateError(cte);
+          //pid.WriteTestData(cte);
+          steer_value = -1.0*pid.TotalError();
+          // Enable or disable throttle control (if disabled throttle will be set to constant 0.3)
+          bool throttle_control_enable = false;
+          double throttle = 0.3;
+          if(throttle_control_enable)
+          {
+        	  throttle = -3.8*fabs(steer_value) + 1;
+          	  throttle = (throttle > 1.0) ? 1.0:throttle;
+          	  throttle = (throttle < 0.1) ? 0.1:throttle;
+          }
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
-          msgJson["throttle"] = 0.3;
+          msgJson["throttle"] = throttle;
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
