@@ -66,7 +66,7 @@ A video of the system running with my final gains for throttle values of 0.3 is 
 
 I tried to experiment with different speeds. My controller gains worked at different speeds to varying degrees. The car would complete the course, but there would often be significant oscillation. To combat this I attempted to implement a control system for the throttle based on the steering angle. My thought was to decrease the throttle linearly as a function of steering angle as shown in the plot below. After driving the vehicle by hand I determined empirically that about 15 deg (0.26 rad) of steering angle was the maximum required. Using this additional controller I found in the straightaways the car could travel faster. There is still significant oscillation, but it is able to complete the course.
 
-![alt text][image6]
+![alt text][image9]
 
 The throttle control is disabled as it is checked in now and throttle is hard coded to 0.3, but can be enabled by setting the throttle_control_enable to true in the main.cpp file. 
 
