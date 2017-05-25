@@ -36,6 +36,8 @@ As a note closed loop stability I found exteremely important here as undamped os
 ## Gain Tuning Methodology
 I originally tried to use Ziegler-Nichols rules to tune the gains, but I found it difficult without the plant model. Instead my strategy for gain tuning was primarily manual, by first coarsely tuning the gains and then iterating, similar to the Twiddle method described in lecture. I chose the default throttle value of 0.3 for the tuning. 
 
+Please see /matlab folder in this repository for scripts and data recorded from simulator to produce the attached plots.
+
 My first step was to coarsely set kP while keeping kI and kD equal to zero. You can see in Figure 3 below that kP values between 0.01 and 0.1 do not immediately destabilize the control loop and cause underdamped oscillations. 
 
 ![alt text][image3]
