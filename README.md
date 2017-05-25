@@ -10,6 +10,7 @@ Self-Driving Car Engineer Nanodegree Program
 [image3]: ./images/PID_diagram.png "KP_TUNE_PLOT"
 [image4]: ./images/PID_diagram.png "KI_TUNE_PLOT"
 [image5]: ./images/PID_diagram.png "KD_TUNE_PLOT"
+[image6]: ./images/thr_ctrl_plot.png "THR_CTRL_PLOT"
 
 # Write Up
 
@@ -46,7 +47,9 @@ A video of the system running with my final gains for throttle values of 0.3 is 
 
 ## Increased Speeds
 
-I tried to experiment with different speeds. My controller gains worked at different speeds to varying degrees. The car would complete the course, but there would often be significant oscillation at points. To combat this I attempted to implement a control system for the throttle based on the steering angle. My thought was to decrease the throttle linearly as a function of steering angle. Therefore in the straightaways we could travel faster. There is still some oscillation, but it is able to complete the course.
+I tried to experiment with different speeds. My controller gains worked at different speeds to varying degrees. The car would complete the course, but there would often be significant oscillation. To combat this I attempted to implement a control system for the throttle based on the steering angle. My thought was to decrease the throttle linearly as a function of steering angle as shown in the plot below. After driving the vehicle by hand I determined empirically that about 15 deg (0.26 rad) of steering angle was the maximum required. Using this additional controller I found in the straightaways the car could travel faster. There is still significant oscillation, but it is able to complete the course.
+
+![alt text][image6]
 
 The throttle control is disabled as it is checked in now and throttle is hard coded to 0.3, but can be enabled by setting the throttle_control_enable to true in the main.cpp file. 
 
