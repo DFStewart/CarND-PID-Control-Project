@@ -7,7 +7,7 @@ Self-Driving Car Engineer Nanodegree Program
 
 [image1]: ./images/PID_equation.png "PID_EQ"
 [image2]: ./images/PID_diagram.png "PID_DIAGRAM"
-[image3]: ./images/kP_tuning.png "KP_TUNE_PLOT"
+[image3]: ./images/kP_Tuning.png "KP_TUNE_PLOT"
 [image4]: ./images/I_Error.png "IERR_PLOT"
 [image5]: ./images/PIvsP.png "PIvsP_PLOT"
 [image6]: ./images/D_Error.png "DERR_PLOT"
