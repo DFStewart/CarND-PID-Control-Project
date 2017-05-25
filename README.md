@@ -7,10 +7,13 @@ Self-Driving Car Engineer Nanodegree Program
 
 [image1]: ./images/PID_equation.png "PID_EQ"
 [image2]: ./images/PID_diagram.png "PID_DIAGRAM"
-[image3]: ./images/PID_diagram.png "KP_TUNE_PLOT"
-[image4]: ./images/PID_diagram.png "KI_TUNE_PLOT"
-[image5]: ./images/PID_diagram.png "KD_TUNE_PLOT"
-[image6]: ./images/thr_ctrl_plot.png "THR_CTRL_PLOT"
+[image3]: ./images/kP_tuning.png "KP_TUNE_PLOT"
+[image4]: ./images/I_Error.png "IERR_PLOT"
+[image5]: ./images/PIvsP.png "PIvsP_PLOT"
+[image6]: ./images/D_Error.png "DERR_PLOT"
+[image7]: ./images/PIvsPID.png "PIvsPID_PLOT"
+[image8]: ./images/fine_tuning.png "FINE_TUNE"
+[image9]: ./images/thr_ctrl_plot.png "THR_CTRL_PLOT"
 
 # Write Up
 
@@ -33,15 +36,29 @@ As a note closed loop stability I found exteremely important here as undamped os
 ## Gain Tuning Methodology
 I originally tried to use Ziegler-Nichols rules to tune the gains, but I found it difficult without the plant model in this context. Instead my strategy for gain tuning was primarily manual, by first coarsely tuning the gains and then iterating, similar to the Twiddle method described in lecture. I chose the default throttle value of 0.3 for the tuning. 
 
-My first step was to coarsely set kP while keeping kI and kD equal to zero. You can see in the plot below that kP values between 0.01 and 0.1 do not destabilize the control loop and cause underdamped oscillations. 
+My first step was to coarsely set kP while keeping kI and kD equal to zero. You can see in the plot below that kP values between 0.01 and 0.1 do not immediately destabilize the control loop and cause underdamped oscillations. 
 
 ![alt text][image3]
 
-I now had a coarse range for kP, but from the plots there is a clear steady state error. Adding a kI term will help remove steady state error, so it was the next term to add. I roughly set kP to 0.05 and moved to coarsely tuning kI. Integrator wind up was a serious problem as shown in the plots below for different values of kI. I started with a very small kI value (0.00001) and slowly increased it until I reached a point where the system was not underdamped and oscillating too much and the I error term was not changing by too much.
+I now had a coarse range for kP, but from the plots there is a clear steady state error. Adding a kI term will help remove steady state error, so it was the next term to add. I roughly set kP to 0.05 and moved to coarsely tuning kI. Integrator wind up was a serious problem as shown in Figure below for different values of kI. I started with a very large kI value (0.01) and slowly decreased it until I reached a point where the system was not underdamped and oscillating too much and the I error term was not changing by too much.
 
-Once I had a reasonable kI value, I started tuning kD. Based on what I saw from the DError plots, D_error was the smallest and would require the largest gain in relation to the other two gains to have a significant effect. I found that a large gain of around 1.0 seemed to dampen some of the vibration and improve the controllers predictive capability. 
+![alt text][image4]
+
+In Figure 5 below we see a comparison of the CTE for PI and P control. Both have significant oscillation that will require the kD term to reduce.
+
+![alt text][image5]
+
+Based on what I saw from the DError plots (Figure 6), D_error was the smallest and would require the largest gain in relation to the other two gains to have a significant effect. I found that a large gain of around 1.5 seemed to dampen some of the vibration and improve the controllers predictive capability as well as allow the car to complete the course without going off. 
+
+![alt text][image6]
+
+In Figure 7 below we see a comparison of the CTE for PI and PID control. Both have significant oscillation that will require the kD term to reduce.
+
+![alt text][image7]
 
 At this point I had a coarse range for each gain kP, kI and kD and I started refining, by increasing and decreasing the value by around 5-10% and observing the performance. The final parameters I achieved were 0.1, 0.0002 and 2.5 for the throttle setting of 0.3 case.
+
+![alt text][image8]
 
 A video of the system running with my final gains for throttle values of 0.3 is shown below:
 
